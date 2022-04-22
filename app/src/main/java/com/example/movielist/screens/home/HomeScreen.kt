@@ -13,13 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.movielist.MovieRow
+import com.example.movielist.model.Movie
+import com.example.movielist.model.getMovies
+import com.example.movielist.navigation.MovieScreens
+import com.example.movielist.widgets.MovieRow
 
 
 @Composable
 fun HomeScreen(navController: NavController){
     Scaffold(topBar = {
-        TopAppBar(backgroundColor = Color.Magenta,
+        TopAppBar(backgroundColor = Color.LightGray,
             elevation = 5.dp) {
             Text(text = "Movies")
         }
@@ -32,17 +35,13 @@ fun HomeScreen(navController: NavController){
 @Composable
 fun MainContent(
     navController: NavController,
-    movieList: List<String> = listOf(
-    "Avatar",
-    "300",
-    "Harry Potter",
-    "Life")){
+    movieList: List<Movie> = getMovies()){
     Column(Modifier.padding(12.dp) ){
         LazyColumn{
             items(movieList){
                 MovieRow(movie = it) {movie ->
+                navController.navigate(route = MovieScreens.DetailScreen.name+"/$movie")
 
-                    Log.d("Movie", "MainContent: $movie ")
                 }
 
             }
